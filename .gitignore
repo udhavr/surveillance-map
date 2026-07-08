@@ -15,14 +15,21 @@ dist-ssr
 # env files (can opt-in for committing if needed)
 .env*
 
+# local private case database
+data/*.sqlite
+data/*.sqlite-*
+
 # turbo
 .turbo
+test-results/
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
 .DS_Store
+~$*.xlsx
 *.suo
 *.ntvs*
 *.njsproj

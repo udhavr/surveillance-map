@@ -1,0 +1,68 @@
+{
+  "schema": "surveillance-map-public-cases-v1",
+  "generatedAt": "2026-07-07T00:00:00.000Z",
+  "privacy": "Public website data only. Accession IDs, city, ZIP, raw location, exact detection date, and notes are intentionally omitted.",
+  "fields": [
+    "pathogen",
+    "host",
+    "year",
+    "month",
+    "state",
+    "county",
+    "fips",
+    "positiveCount",
+    "totalTestCount",
+    "positivityRate"
+  ],
+  "recordCount": 4,
+  "cases": [
+    {
+      "pathogen": "Rabies virus",
+      "host": "Wildlife",
+      "year": "2026",
+      "month": "02",
+      "state": "OK",
+      "county": "Payne",
+      "fips": "40119",
+      "positiveCount": 1,
+      "totalTestCount": 4,
+      "positivityRate": 0.25
+    },
+    {
+      "pathogen": "Trichomoniasis (Tritrichomonas foetus)",
+      "host": "Bovine",
+      "year": "2024",
+      "month": "01",
+      "state": "OK",
+      "county": "Grady",
+      "fips": "40051",
+      "positiveCount": 1,
+      "totalTestCount": 8,
+      "positivityRate": 0.125
+    },
+    {
+      "pathogen": "Trichomoniasis (Tritrichomonas foetus)",
+      "host": "Bovine",
+      "year": "2025",
+      "month": "03",
+      "state": "OK",
+      "county": "Pittsburg",
+      "fips": "40121",
+      "positiveCount": 1,
+      "totalTestCount": 15,
+      "positivityRate": 0.06666666666666667
+    },
+    {
+      "pathogen": "Trichomoniasis (Tritrichomonas foetus)",
+      "host": "Bovine",
+      "year": "2026",
+      "month": "02",
+      "state": "OK",
+      "county": "Comanche",
+      "fips": "40031",
+      "positiveCount": 1,
+      "totalTestCount": 12,
+      "positivityRate": 0.08333333333333333
+    }
+  ]
+}

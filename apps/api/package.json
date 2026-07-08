@@ -1,0 +1,25 @@
+{
+  "name": "api",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit && mkdir -p dist && touch dist/.build",
+    "dev": "tsx watch src/index.ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.0.8",
+    "@workspace/shared": "*",
+    "hono": "^4.12.28"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "tsx": "^4.23.0",
+    "typescript": "~6",
+    "vitest": "^4.0.0"
+  }
+}

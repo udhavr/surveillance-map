@@ -1,11 +1,33 @@
 {
-  "endOfLine": "lf",
-  "semi": false,
-  "singleQuote": false,
-  "tabWidth": 2,
-  "trailingComma": "es5",
-  "printWidth": 80,
-  "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindStylesheet": "packages/ui/src/styles/globals.css",
-  "tailwindFunctions": ["cn", "cva"]
+    "arrowParens": "avoid",
+    "jsxSingleQuote": true,
+    "quoteProps": "consistent",
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true,
+    "importOrder": [
+        "<THIRD_PARTY_MODULES>",
+        "^@/routes/(.*)$",
+        "^@/features/(.*)$",
+        "^@/api/(.*)$",
+        "^@/components/layouts/(.*)$",
+        "^@/components/interfaces/(.*)$",
+        "^@/components/ui/(.*)$",
+        "^@/components/(.*)$",
+        "^@/lib/(.*)$",
+        "^@/hooks/(.*)$",
+        "^@/assets/(.*)$",
+        "^@workspace/shared$",
+        "^@workspace/ui/(.*)$",
+        "^[./]"
+    ],
+    "plugins": [
+        "@trivago/prettier-plugin-sort-imports",
+        "prettier-plugin-tailwindcss"
+    ],
+    "tailwindStylesheet": "packages/ui/src/styles/globals.css",
+    "tailwindFunctions": ["cn", "cva"]
 }
