@@ -1,3 +1,5 @@
+'use client'
+
 import { Tabs as TabsPrimitive } from '@base-ui/react/tabs'
 import { type VariantProps, cva } from 'class-variance-authority'
 
