@@ -13,12 +13,19 @@ type ParsedCaseImport = {
 }
 
 const FIELD_ALIASES = {
+    id: ['id', 'caseid', 'recordid'],
     accessionId: ['accessionid', 'accession', 'accessionnumber', 'sampleid'],
-    pathogen: ['pathogen', 'disease', 'agent', 'organism'],
-    detectionDate: ['detectiondate', 'date', 'sampledate', 'collectiondate'],
+    pathogen: ['pathogen', 'disease', 'diseasename', 'agent', 'organism'],
+    detectionDate: [
+        'detectiondate',
+        'dateofdetection',
+        'date',
+        'sampledate',
+        'collectiondate',
+    ],
     year: ['year'],
     month: ['month'],
-    host: ['host', 'species', 'animal', 'animaltype'],
+    host: ['host', 'animalhostaffected', 'species', 'animal', 'animaltype'],
     city: ['city', 'town'],
     state: ['state', 'stateabbr', 'stateabbreviation'],
     zip: ['zip', 'zipcode', 'postalcode'],
@@ -31,6 +38,7 @@ const FIELD_ALIASES = {
 } satisfies Record<keyof CaseImportFields, string[]>
 
 type CaseImportFields = {
+    id: string
     accessionId: string
     pathogen: string
     detectionDate: string
@@ -85,7 +93,7 @@ function rowToCaseInput(
     warnings: string[]
 ): CaseInput {
     const resultText = text(readField(row, 'result'))
-    const result = normalizeResult(resultText)
+    const result = resultText ? normalizeResult(resultText) : 'positive'
     if (resultText && !result) {
         warnings.push(
             `Row ${rowNumber}: result "${resultText}" is not positive, negative, or suspect.`
@@ -93,6 +101,7 @@ function rowToCaseInput(
     }
 
     return {
+        id: text(readField(row, 'id')),
         accessionId: text(readField(row, 'accessionId')),
         pathogen: text(readField(row, 'pathogen')),
         detectionDate: dateText(readField(row, 'detectionDate')),

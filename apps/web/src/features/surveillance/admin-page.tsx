@@ -495,10 +495,12 @@ function ImportControls({ isImporting, onImportExcel }: ImportControlsProps) {
                 />
             </div>
             <p className='text-sm text-muted-foreground'>
-                Excel import reads the first worksheet. Recommended columns:
-                Accession ID, Pathogen, Detection Date, Year, Month, Host, City,
-                State, ZIP, County, County FIPS, Result, Total Tests, Raw
-                Location, Notes.
+                Excel import reads the first worksheet. The current starter
+                workbook format is supported: ID, Disease name, Date of
+                detection, Year, Month, Animal host affected, State, County,
+                FIPS, Notes. It also accepts explicit columns like Pathogen,
+                Host, Result, Total Tests, City, ZIP, Raw Location, and County
+                FIPS.
             </p>
         </div>
     )
