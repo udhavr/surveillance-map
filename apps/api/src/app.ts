@@ -40,13 +40,6 @@ export function createApp(cases: CaseRepository) {
         return context.json({ records: [] })
     })
 
-    app.post('/admin/cases/reset', context =>
-        context.json({
-            source: 'sqlite',
-            records: cases.reset(),
-        })
-    )
-
     app.put('/admin/cases/:id', async context => {
         const body = await readJson(context.req)
         const result = cases.update(context.req.param('id'), body)

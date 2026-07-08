@@ -45,16 +45,6 @@ export async function deleteAdminCase(id: string) {
     })
 }
 
-export async function resetAdminCases() {
-    assertAdminApiAvailable()
-    return requestJson<{ source: 'sqlite'; records: PrivateCaseRecord[] }>(
-        '/admin/cases/reset',
-        {
-            method: 'POST',
-        }
-    )
-}
-
 export async function clearAdminCases() {
     assertAdminApiAvailable()
     return requestJson<{ records: PrivateCaseRecord[] }>('/admin/cases', {
@@ -64,12 +54,41 @@ export async function clearAdminCases() {
 
 export async function getPublicPayload() {
     if (USE_STATIC_PUBLIC_DATA) {
-        return requestStaticJson<PublicSurveillancePayload>(
-            '/data/public_cases.json'
+        return (
+            readStoredStaticPublicPayload() ??
+            (await requestStaticJson<PublicSurveillancePayload>(
+                '/data/public_cases.json'
+            ))
         )
     }
 
     return requestJson<PublicSurveillancePayload>('/public/cases.json')
+}
+
+export function saveStaticPublicPayload(payload: PublicSurveillancePayload) {
+    globalThis.localStorage?.setItem(
+        STATIC_PUBLIC_PAYLOAD_KEY,
+        JSON.stringify(payload)
+    )
+}
+
+export function clearStaticPublicPayload() {
+    globalThis.localStorage?.removeItem(STATIC_PUBLIC_PAYLOAD_KEY)
+}
+
+const STATIC_PUBLIC_PAYLOAD_KEY = 'surveillance-map-public-payload-v1'
+
+function readStoredStaticPublicPayload() {
+    const stored = globalThis.localStorage?.getItem(STATIC_PUBLIC_PAYLOAD_KEY)
+    if (!stored) {
+        return undefined
+    }
+
+    try {
+        return JSON.parse(stored) as PublicSurveillancePayload
+    } catch {
+        return undefined
+    }
 }
 
 export async function getPublicJsonText() {

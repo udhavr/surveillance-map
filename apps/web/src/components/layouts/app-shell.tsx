@@ -1,4 +1,3 @@
-import { IS_PUBLIC_SITE_ONLY } from '@/config'
 import { DatabaseIcon, MapTrifoldIcon } from '@phosphor-icons/react'
 import { Link, Outlet } from '@tanstack/react-router'
 
@@ -27,15 +26,13 @@ export function AppShell() {
                                 <MapTrifoldIcon />
                                 Public map
                             </Link>
-                            {IS_PUBLIC_SITE_ONLY ? null : (
-                                <Link
-                                    to='/admin'
-                                    className='inline-flex h-8 items-center gap-1.5 rounded-2xl border px-3 text-sm font-medium hover:bg-muted'
-                                >
-                                    <DatabaseIcon />
-                                    Admin data
-                                </Link>
-                            )}
+                            <Link
+                                to='/admin'
+                                className='inline-flex h-8 items-center gap-1.5 rounded-2xl border px-3 text-sm font-medium hover:bg-muted'
+                            >
+                                <DatabaseIcon />
+                                Admin data
+                            </Link>
                         </nav>
                     </div>
                 </header>

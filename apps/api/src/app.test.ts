@@ -19,6 +19,16 @@ afterEach(() => {
 })
 
 describe('case API', () => {
+    it('starts empty until records are imported or created', async () => {
+        const app = testApp()
+
+        const response = await app.request('/admin/cases')
+        expect(response.status).toBe(200)
+        expect(
+            ((await response.json()) as { records: unknown[] }).records
+        ).toEqual([])
+    })
+
     it('supports admin CRUD operations against SQLite', async () => {
         const app = testApp()
 
@@ -61,33 +71,57 @@ describe('case API', () => {
         expect(deleted.status).toBe(200)
     })
 
-    it('can reset and clear starter data', async () => {
+    it('can clear imported data', async () => {
         const app = testApp()
+
+        await app.request('/admin/cases', {
+            body: JSON.stringify({
+                pathogen: 'Rabies virus',
+                year: '2026',
+                host: 'wildlife',
+                state: 'ok',
+                county: 'payne',
+                fips: '40119',
+                result: 'positive',
+            }),
+            method: 'POST',
+        })
 
         const cleared = await app.request('/admin/cases', { method: 'DELETE' })
         expect(cleared.status).toBe(200)
         expect(
             ((await cleared.json()) as { records: unknown[] }).records
         ).toEqual([])
-
-        const reset = await app.request('/admin/cases/reset', {
-            method: 'POST',
-        })
-        expect(reset.status).toBe(200)
-        expect(
-            ((await reset.json()) as { records: unknown[] }).records.length
-        ).toBeGreaterThan(0)
     })
 
     it('keeps private fields out of the public payload', async () => {
         const app = testApp()
+        await app.request('/admin/cases', {
+            body: JSON.stringify({
+                accessionId: 'PRIVATE-ACCESSION',
+                pathogen: 'Rabies virus',
+                detectionDate: '2026-04-10',
+                host: 'wildlife',
+                city: 'Stillwater',
+                state: 'ok',
+                zip: '74074',
+                county: 'payne',
+                fips: '40119',
+                rawLocation: 'Stillwater, OK 74074',
+                result: 'positive',
+                testCount: 2,
+            }),
+            method: 'POST',
+        })
+
         const response = await app.request('/public/cases.json')
         const text = await response.text()
 
         expect(response.status).toBe(200)
-        expect(text).not.toContain('OADDL-2026-0001')
-        expect(text).not.toContain('Faxon')
-        expect(text).not.toContain('73540')
+        expect(text).toContain('Payne')
+        expect(text).not.toContain('PRIVATE-ACCESSION')
+        expect(text).not.toContain('Stillwater')
+        expect(text).not.toContain('74074')
     })
 })
 

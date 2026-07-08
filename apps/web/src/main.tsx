@@ -1,9 +1,9 @@
+import { ROUTER_BASE_PATH } from '@/config'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import { ThemeProvider } from '@/components/theme-provider.tsx'
-import { ROUTER_BASE_PATH } from '@/config'
 
 import '@workspace/ui/globals.css'
 

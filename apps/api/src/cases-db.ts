@@ -8,7 +8,6 @@ import {
     type Month,
     type PrivateCaseRecord,
     normalizePrivateCaseRecord,
-    sampleCases,
 } from '@workspace/shared'
 
 export type CaseRepository = {
@@ -21,7 +20,6 @@ export type CaseRepository = {
         | { ok: false; errors: string[] }
     delete: (id: string) => boolean
     list: () => PrivateCaseRecord[]
-    reset: () => PrivateCaseRecord[]
     update: (
         id: string,
         input: CaseInput
@@ -146,29 +144,6 @@ export function createCaseRepository(
                 .all()
                 .map(row => rowToCase(row as CaseRow))
         },
-        reset() {
-            db.exec('BEGIN')
-            try {
-                db.prepare('DELETE FROM cases').run()
-                for (const sampleCase of sampleCases) {
-                    const now = new Date().toISOString()
-                    const normalized = normalizePrivateCaseRecord({
-                        ...sampleCase,
-                        createdAt: sampleCase.createdAt ?? now,
-                        updatedAt: sampleCase.updatedAt ?? now,
-                    })
-                    if (normalized.ok) {
-                        insertRecord(db, normalized.record)
-                    }
-                }
-                db.exec('COMMIT')
-            } catch (error) {
-                db.exec('ROLLBACK')
-                throw error
-            }
-
-            return repository.list()
-        },
         update(id: string, input: CaseInput) {
             const existing = db
                 .prepare(
@@ -194,13 +169,6 @@ export function createCaseRepository(
             updateRecord(db, normalized.record)
             return normalized
         },
-    }
-
-    const count = db.prepare('SELECT COUNT(*) AS count FROM cases').get() as {
-        count: number
-    }
-    if (count.count === 0) {
-        repository.reset()
     }
 
     return repository
